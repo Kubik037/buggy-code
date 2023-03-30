@@ -1,5 +1,3 @@
-import sys
-import os
 import yaml
 import flask
 
@@ -39,20 +37,21 @@ def fetch_website(urllib_version, url):
 
 def load_yaml(filename):
     stream = open(filename)
-    deserialized_data = yaml.load(stream, Loader=yaml.Loader)  # deserializing data
+    deserialized_data = yaml.safe_load(stream)  # deserializing data
     return deserialized_data
 
 
-def authenticate(password):
+def authenticate(passwd):
     # Assert that the password is correct
-    assert password == "Iloveyou", "Invalid password!"
+    assert passwd == "Iloveyou", "Invalid password!"
     print("Successfully authenticated!")
 
 
 if __name__ == '__main__':
     print("Vulnerabilities:")
     print(
-        "1. Format string vulnerability: use string={person.__init__.__globals__[CONFIG][API_KEY]}")
+        "1. Format string vulnerability: use string={person.__init__.__globals__["
+        "CONFIG][API_KEY]}")
     print("2. Code injection vulnerability: use string=;print('Own code executed') #")
     print("3. Yaml deserialization vulnerability: use string=file.yaml")
     print("4. Use of assert statements vulnerability: run program with -O argument")
